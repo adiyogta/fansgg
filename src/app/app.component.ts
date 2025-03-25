@@ -22,6 +22,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.seoService.initDefaultMeta();
+    this.seoService.generateStructuredData();
     this.animationService.initGSAP();
   }
 }
