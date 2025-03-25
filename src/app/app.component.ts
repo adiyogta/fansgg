@@ -10,7 +10,7 @@ import { ConsentManagementComponent } from "./components/coockies.component";
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, HeaderComponent, FooterComponent, ConsentManagementComponent],
+  imports: [RouterOutlet, HeaderComponent, FooterComponent,],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

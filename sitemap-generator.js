@@ -4,7 +4,7 @@ const { SitemapStream, streamToPromise } = require('sitemap');
 async function generateSitemap() {
   try {
     const sitemapStream = new SitemapStream({ 
-      hostname: 'https://mcgogo.fansgame.site' 
+      hostname: 'https://fansgame.site' 
     });
 
     // Daftar URL statis
