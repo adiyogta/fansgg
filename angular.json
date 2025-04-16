@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "mcgogo": {
+    "fansgg": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -24,7 +24,8 @@
               {
                 "glob": "**/*",
                 "input": "public"
-              }
+              },
+              "src/sitemap.xml"
             ],
             "styles": [
               "src/styles.css"
