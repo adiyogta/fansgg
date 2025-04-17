@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { NgFor, NgOptimizedImage } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { HeroCardComponent } from '../../components/hero-card/hero-card.component';
@@ -59,6 +59,15 @@ import { Synergy } from '../../services/synergy.model';
           <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
           </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- AdSense Section -->
+    <section class="py-6 bg-gray-800">
+      <div class="container mx-auto px-6">
+        <div id="adsense-container" class="w-full flex justify-center">
+          <!-- AdSense will be inserted here via JavaScript -->
         </div>
       </div>
     </section>
@@ -162,7 +171,7 @@ import { Synergy } from '../../services/synergy.model';
     }
   `]
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, AfterViewInit {
   featuredHeroes: Hero[] = [];
   featuredCommanders: Commander[] = [];
   featuredSynergies: Synergy[] = [];
@@ -198,5 +207,44 @@ export class HomeComponent implements OnInit {
       this.animationService.animateHeroCards('.commanders-container app-commander-card');
       this.animationService.animateHeroCards('.synergies-container app-synergy-item');
     }, 500);
+  }
+
+  ngAfterViewInit(): void {
+    // Load AdSense ads after view is initialized
+    this.loadAdsenseAds();
+    
+    // Animations
+    setTimeout(() => {
+      this.animationService.animateHeroCards('.heroes-container app-hero-card');
+      this.animationService.animateHeroCards('.commanders-container app-commander-card');
+      this.animationService.animateHeroCards('.synergies-container app-synergy-item');
+    }, 500);
+  }
+
+  loadAdsenseAds(): void {
+    // Create ad container
+    const adContainer = document.getElementById('adsense-container');
+    if (!adContainer) return;
+
+    // Create ins element
+    const insElement = document.createElement('ins');
+    insElement.className = 'adsbygoogle';
+    insElement.style.display = 'block';
+    insElement.setAttribute('data-ad-client', 'ca-pub-5083508606977693');
+    insElement.setAttribute('data-ad-slot', '1986290072');
+    insElement.setAttribute('data-ad-format', 'auto');
+    insElement.setAttribute('data-full-width-responsive', 'true');
+    
+    // Append to container
+    adContainer.appendChild(insElement);
+    
+    // Push ad
+    try {
+      // Fix: Properly declare adsbygoogle for TypeScript
+      const adsbygoogle = (window as any).adsbygoogle || [];
+      adsbygoogle.push({});
+    } catch (e) {
+      console.error('AdSense error:', e);
+    }
   }
 }
