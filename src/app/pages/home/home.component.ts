@@ -63,15 +63,7 @@ import { Synergy } from '../../services/synergy.model';
       </div>
     </section>
 
-    <!-- AdSense Section -->
-    <section class="py-6 bg-gray-800">
-      <div class="container mx-auto px-6">
-        <div id="adsense-container" class="w-full flex justify-center">
-          <!-- AdSense will be inserted here via JavaScript -->
-        </div>
-      </div>
-    </section>
-
+    <!-- Remove the original AdSense Section -->
     <!-- Featured Heroes Section -->
     <section class="py-16 bg-gray-900">
       <div class="container mx-auto px-6">
@@ -149,6 +141,21 @@ import { Synergy } from '../../services/synergy.model';
         </a>
       </div>
     </section>
+
+    <!-- Floating AdSense Section -->
+    <div id="adsense-container" class="fixed bottom-0 left-0 right-0 z-50 py-2 bg-gray-800 bg-opacity-90 shadow-lg">
+      <div class="container mx-auto px-6">
+        <div class="w-full flex justify-center">
+          <!-- AdSense will be inserted here via JavaScript -->
+        </div>
+      </div>
+      <button class="absolute top-1 right-1 text-white text-xs bg-gray-700 rounded-full p-1" 
+              (click)="closeAd($event)">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
   `,
   styles: [`
     :host {
@@ -246,5 +253,14 @@ export class HomeComponent implements OnInit, AfterViewInit {
     } catch (e) {
       console.error('AdSense error:', e);
     }
+  }
+
+  closeAd(event: MouseEvent): void {
+    const adContainer = document.getElementById('adsense-container');
+    if (adContainer) {
+      adContainer.style.display = 'none';
+    }
+    event.preventDefault();
+    event.stopPropagation();
   }
 }
