@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { NgFor, NgOptimizedImage } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { HeroCardComponent } from '../../components/hero-card/hero-card.component';
@@ -63,6 +63,7 @@ import { Synergy } from '../../services/synergy.model';
       </div>
     </section>
 
+    <!-- Remove the original AdSense Section -->
     <!-- Featured Heroes Section -->
     <section class="py-16 bg-gray-900">
       <div class="container mx-auto px-6">
@@ -140,6 +141,21 @@ import { Synergy } from '../../services/synergy.model';
         </a>
       </div>
     </section>
+
+    <!-- Floating AdSense Section -->
+    <div id="adsense-container" class="fixed bottom-0 left-0 right-0 z-50 py-2 bg-gray-800 bg-opacity-90 shadow-lg">
+      <div class="container mx-auto px-6">
+        <div class="w-full flex justify-center">
+          <!-- AdSense will be inserted here via JavaScript -->
+        </div>
+      </div>
+      <button class="absolute top-1 right-1 text-white text-xs bg-gray-700 rounded-full p-1" 
+              (click)="closeAd($event)">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
   `,
   styles: [`
     :host {
@@ -162,7 +178,7 @@ import { Synergy } from '../../services/synergy.model';
     }
   `]
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, AfterViewInit {
   featuredHeroes: Hero[] = [];
   featuredCommanders: Commander[] = [];
   featuredSynergies: Synergy[] = [];
@@ -198,5 +214,53 @@ export class HomeComponent implements OnInit {
       this.animationService.animateHeroCards('.commanders-container app-commander-card');
       this.animationService.animateHeroCards('.synergies-container app-synergy-item');
     }, 500);
+  }
+
+  ngAfterViewInit(): void {
+    // Load AdSense ads after view is initialized
+    this.loadAdsenseAds();
+    
+    // Animations
+    setTimeout(() => {
+      this.animationService.animateHeroCards('.heroes-container app-hero-card');
+      this.animationService.animateHeroCards('.commanders-container app-commander-card');
+      this.animationService.animateHeroCards('.synergies-container app-synergy-item');
+    }, 500);
+  }
+
+  loadAdsenseAds(): void {
+    // Create ad container
+    const adContainer = document.getElementById('adsense-container');
+    if (!adContainer) return;
+
+    // Create ins element
+    const insElement = document.createElement('ins');
+    insElement.className = 'adsbygoogle';
+    insElement.style.display = 'block';
+    insElement.setAttribute('data-ad-client', 'ca-pub-5083508606977693');
+    insElement.setAttribute('data-ad-slot', '1986290072');
+    insElement.setAttribute('data-ad-format', 'auto');
+    insElement.setAttribute('data-full-width-responsive', 'true');
+    
+    // Append to container
+    adContainer.appendChild(insElement);
+    
+    // Push ad
+    try {
+      // Fix: Properly declare adsbygoogle for TypeScript
+      const adsbygoogle = (window as any).adsbygoogle || [];
+      adsbygoogle.push({});
+    } catch (e) {
+      console.error('AdSense error:', e);
+    }
+  }
+
+  closeAd(event: MouseEvent): void {
+    const adContainer = document.getElementById('adsense-container');
+    if (adContainer) {
+      adContainer.style.display = 'none';
+    }
+    event.preventDefault();
+    event.stopPropagation();
   }
 }
